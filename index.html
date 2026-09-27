@@ -320,7 +320,7 @@
         <button class="close-btn" onclick="closeModal()">Бас тарту</button>
       </div>
 
-      <!-- 2-қадам: Төлем ақпараты және Каспи қосымшасына өту -->
+      <!-- 2-қадам: Төлем ақпараты және Каспиге өту -->
       <div class="modal-step" id="step2">
         <div class="kaspi-header">kaspi.kz</div>
         
@@ -336,7 +336,7 @@
           <strong>8 707 515 34 05</strong>
         </div>
 
-        <button class="kaspi-btn" onclick="payViaKaspi()">📲 Нөмірді көшіріп, Kaspi қосымшасын ашу</button>
+        <button class="kaspi-btn" onclick="payViaKaspi()">📋 Нөмірді көшіріп, Kaspi-ге өту</button>
         <button class="close-btn" onclick="closeModal()">Жабу</button>
       </div>
 
@@ -390,27 +390,23 @@
       document.getElementById('summaryNick').textContent = nick;
 
       document.getElementById('step1').classList.remove('active');
-      document.getElementById('step2').classList.active = false;
       document.getElementById('step2').classList.add('active');
     }
 
     function payViaKaspi() {
       const phoneNumber = "87075153405";
       
-      // Телефон нөмірін клипбордқа көшіру
+      // Телефон нөмірін автоматты түрде көшіру
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(phoneNumber);
-      }
-
-      alert("87075153405 нөмірі көшірілді! Kaspi қосымшасында 'Переводы' бөліміне қоя салыңыз.");
-
-      // Мобильді Kaspi қосымшасын тікелей ашу (Deep Link)
-      window.location.href = "kaspi://";
-
-      // Егер Kaspi қосымшасы ашылмай калса (мысалы ПК-де), 1 секундтан соң веб-сайтына бағыттайды
-      setTimeout(function() {
+        navigator.clipboard.writeText(phoneNumber).then(() => {
+          alert("87075153405 нөмірі көшірілді! Kaspi-де «Переводы» бөліміне өтіп, қоя салыңыз.");
+          window.location.href = "https://kaspi.kz";
+        }).catch(() => {
+          window.location.href = "https://kaspi.kz";
+        });
+      } else {
         window.location.href = "https://kaspi.kz";
-      }, 1000);
+      }
     }
 
     function closeModal() {
